@@ -30,7 +30,9 @@ using android::hardware::biometrics::fingerprint::V2_3::implementation::Biometri
 int main() {
     sp<IBiometricsFingerprint> bio = new BiometricsFingerprint();
 
-    configureRpcThreadpool(1, true /*callerWillJoin*/);
+android::hardware::setMinSchedulerPolicy(bio, SCHED_RR, -20);
+
+configureRpcThreadpool(1, true /*callerWillJoin*/);
 
     if (bio->registerAsService() != android::OK) {
         LOG(ERROR) << "Can't register BiometricsFingerprint HAL service";
